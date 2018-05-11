@@ -5,6 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Store.Domain.Concrete;
+using Store.Domain.Abstract;
+using Store.Domain.Entities;
 
 namespace Store.WebUI.Infrastructure
 {
@@ -29,7 +32,7 @@ namespace Store.WebUI.Infrastructure
 
         private void AddBindings()
         {
-
+            ninjectKernel.Bind<IProductRepository>().To<EFProductRepository>();
         }
     }
 }
