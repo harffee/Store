@@ -8,6 +8,7 @@ using System.Web.Routing;
 using Store.Domain.Concrete;
 using Store.Domain.Abstract;
 using Store.Domain.Entities;
+using System.Configuration;
 
 namespace Store.WebUI.Infrastructure
 {
@@ -33,6 +34,15 @@ namespace Store.WebUI.Infrastructure
         private void AddBindings()
         {
             ninjectKernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager
+                .AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+            ninjectKernel.Bind<IOrderProcessor>()
+                .To<EmailOrderProcessor>()
+                .WithConstructorArgument("setting", emailSettings);
         }
     }
 }
